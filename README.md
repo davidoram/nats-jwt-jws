@@ -1,24 +1,6 @@
 
-Use JWT with JWS
+# NATS JSON Web Signature (JWS) from NATS credentials
 
-In essesece - JWT is encrypted with a separate public key & placed in header, server decodes & verifies, then uses JWT details for audit
+Show how to a NATS user can create a JWS from a standard NATS credentials file, which is signed by the user with their private key, then on the server side how that JWS can be decoded and verified as having being signed by using the Users public key (ie: `sub` field in JWT)
 
-Tools; 
-
-- [nk](go install github.com/nats-io/nkeys/nk@latest)
-
-Idea 1: Generate new keypair just for the authenticating
-Idea 2: Use existing keypair, maybe from the issuer (Account)
-
-On creation of a new user we generate a unique keypair
-
-Idea1: `nk -gen user -pubout > server.keys`
-
-First line is 
-```
-SUAO2RDGNQ5N4Z5CVHGDGA53453L2ZVYE5W3M6A4WTWRLYYKYAUGUMRTYQ
-UCSG37DGBCUG7M3WPU46TKLPH4RKMP62QWKIXH6NXRR7MJ6MOWZOMSJU
-```
-
-First line is Seed (Private key), second line is User (Public key)
-
+The resulting JWT could be used for example as a NATS Header that could be sent alongside messages, so that the server side could use the header to store audit information about who sent the message.
